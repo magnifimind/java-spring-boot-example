@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: Spring Boot Example Microservice
+  description: A simple microservice with health check and hello endpoints
+  version: 1.0.0
+  contact:
+    name: Example Team
+    email: team@example.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+tags:
+  - name: health
+    description: Health check operations
+  - name: hello
+    description: Hello world operations
+
+paths:
+  /api/health:
+    get:
+      tags:
+        - health
+      summary: Health check endpoint
+      description: Returns the health status of the service
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/hello:
+    get:
+      tags:
+        - hello
+      summary: Hello endpoint
+      description: Returns a hello message
+      operationId: getHello
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+      properties:
+        status:
+          type: string
+          description: Health status of the service
+          example: "UP"
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the health check
+        message:
+          type: string
+          description: Additional health information
+          example: "Service is running normally"
+
+    HelloResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The hello message
+          example: "world"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - timestamp
+      properties:
+        error:
+          type: string
+          description: Error message
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the error occurred
+        details:
+          type: string
+          description: Additional error details

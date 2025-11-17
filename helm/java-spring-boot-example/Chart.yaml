@@ -1,0 +1,14 @@
+apiVersion: v2
+name: java-spring-boot-example
+description: A Helm chart for Java Spring Boot Example microservice
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - spring-boot
+  - microservice
+  - java
+home: https://github.com/davealexenglish/java-spring-boot-example
+maintainers:
+  - name: Dave English
+    email: denglish@example.com
