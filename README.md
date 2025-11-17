@@ -67,13 +67,18 @@ java-spring-boot-example/
 
 ### Environment Variables
 
-Set these environment variables (typically via `init_exports.sh`):
+Set these environment variables for docker registry:
 
 ```bash
-export KUBE_HOST=t5810.webcentricds.net
-export KUBE_USERNAME=denglish
-export KUBE_PASSWORD=your_password
-export KUBE_KUBECONFIG=~/.kube/config-t5810
+export KUBE_HOST=?
+export KUBE_USERNAME=?
+export KUBE_PASSWORD=?
+```
+
+Set this environment variables for K8S cluster:
+
+```bash
+export KUBE_KUBECONFIG=?
 ```
 
 ## Building Locally
