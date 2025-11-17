@@ -87,8 +87,36 @@ export KUBE_KUBECONFIG=~/.kube/config-t5810
 This will:
 1. Generate API interfaces and models from `src/main/resources/openapi/api-spec.yaml`
 2. Compile the application
-3. Run all unit tests
-4. Create executable JAR in `build/libs/`
+3. Check code formatting with Spotless
+4. Run all unit tests
+5. Create executable JAR in `build/libs/`
+
+### Code Formatting with Spotless
+
+The project uses [Spotless](https://github.com/diffplug/spotless) with Google Java Format for consistent code formatting.
+
+#### Check Formatting
+
+```bash
+./gradlew spotlessCheck
+```
+
+#### Apply Formatting
+
+```bash
+./gradlew spotlessApply
+```
+
+#### Spotless Configuration
+
+- **Google Java Format** - Enforces Google's Java style guide
+- **No Wildcard Imports** - Wildcard imports (e.g., `import java.util.*`) are not allowed
+- **Import Ordering** - Imports are automatically sorted
+- **Remove Unused Imports** - Unused imports are removed
+- **Trailing Whitespace** - Removed automatically
+- **End with Newline** - All files end with a newline
+
+Note: Generated code in `build/generated/**` is excluded from formatting checks.
 
 ### Run Locally
 

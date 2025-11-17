@@ -3,8 +3,11 @@
 ## 1. Test Locally (Optional)
 
 ```bash
-# Build and run tests
+# Build and run tests (includes code formatting check)
 ./gradlew clean build
+
+# Format code if needed
+./gradlew spotlessApply
 
 # Run the application locally
 ./gradlew bootRun
@@ -15,6 +18,8 @@ Test locally at `http://localhost:8080`:
 curl http://localhost:8080/api/health
 curl http://localhost:8080/api/hello
 ```
+
+**Note:** The build includes Spotless formatting checks. If the build fails due to formatting violations, run `./gradlew spotlessApply` to auto-fix them.
 
 ## 2. Deploy to t5810 Minikube
 

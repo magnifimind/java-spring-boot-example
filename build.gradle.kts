@@ -3,6 +3,7 @@ plugins {
     id("org.springframework.boot") version "3.2.1"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.openapi.generator") version "7.2.0"
+    id("com.diffplug.spotless") version "6.23.3"
 }
 
 group = "com.example"
@@ -47,15 +48,17 @@ openApiGenerate {
     outputDir.set("${layout.buildDirectory.get()}/generated")
     apiPackage.set("com.example.springbootexample.api")
     modelPackage.set("com.example.springbootexample.model")
-    configOptions.set(mapOf(
-        "dateLibrary" to "java8",
-        "interfaceOnly" to "true",
-        "useTags" to "true",
-        "useSpringBoot3" to "true",
-        "skipDefaultInterface" to "true",
-        "performBeanValidation" to "true",
-        "useBeanValidation" to "true"
-    ))
+    configOptions.set(
+        mapOf(
+            "dateLibrary" to "java8",
+            "interfaceOnly" to "true",
+            "useTags" to "true",
+            "useSpringBoot3" to "true",
+            "skipDefaultInterface" to "true",
+            "performBeanValidation" to "true",
+            "useBeanValidation" to "true",
+        ),
+    )
 }
 
 // Make sure generated sources are available
@@ -74,4 +77,42 @@ tasks.compileJava {
 
 tasks.named<Jar>("jar") {
     enabled = false
+}
+
+// Spotless configuration for code formatting
+spotless {
+    java {
+        target("src/*/java/**/*.java")
+        // Exclude generated code
+        targetExclude("build/generated/**")
+
+        // Use Google Java Format
+        googleJavaFormat("1.19.1")
+
+        // Remove unused imports
+        removeUnusedImports()
+
+        // Format imports - no wildcards allowed
+        importOrder()
+
+        // Custom rule to prevent wildcard imports
+        custom("noWildcardImports") {
+            if (it.contains("import ") && it.contains(".*")) {
+                throw RuntimeException("Wildcard imports are not allowed. Found: ${it.trim()}")
+            }
+            it
+        }
+
+        // Remove trailing whitespace
+        trimTrailingWhitespace()
+
+        // Ensure files end with a newline
+        endWithNewline()
+    }
+
+    // Format Kotlin build files
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint()
+    }
 }
